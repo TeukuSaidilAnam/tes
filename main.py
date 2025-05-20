@@ -22,7 +22,7 @@ latest_data = {"message": "Belum ada data"}
 # Fungsi dipanggil saat terhubung ke broker
 def on_connect(client, userdata, flags, rc):
     print("Terhubung ke broker dengan kode:", rc)
-    client.subscribe("sensor")
+    client.subscribe("usk/iot/mqtt/contoh")
 
 # Fungsi dipanggil saat pesan diterima
 def on_message(client, userdata, msg):
@@ -57,11 +57,13 @@ def home():
 
 @app.route("/data")
 def data():
-    suhu = latest_data.get("sensor1", {}).get("suhu", "tidak ada")
+    suhu = latest_data.get("temp")
+    kelembaban = latest_data.get("humidity")
     return jsonify([{
         "lat": -6.2,
         "lng": 106.8,
-        "suhu": suhu
+        'temp': temp,
+        'humidity': humidity
     }])
 @app.route("/dashboard", methods=["POST"])
 def dashboard():
