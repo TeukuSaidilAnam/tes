@@ -1,0 +1,41 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
+  width: 100%;
+}
+
+.navbar {
+  position: sticky;
+  top: 0;
+  background-color: rgb(26, 37, 37);
+  color: white;
+  width: 100%;
+  padding: 10px;
+  z-index: 1000;
+}
+
+.navbar ul {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+}
+
+.navbar li {
+  padding: 5px 18px;
+  color: white;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+}
+
+#map {
+  height: calc(100vh - 50px); /* sisa tinggi layar setelah navbar */
+  width: 100%;
+}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Peta dengan Data Suhu</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+
+  <div class="navbar">
+    <ul>
+      <li><a href="{{ url_for('ubahakun') }}">Ubah Akun</a></li>
+      <li>{{ a.name }}</li>
+      <li>{{ a.password }}</li>
+      <li>{{ latest_data.sensor1 }}</li>
+    </ul>
+  </div>
+
+  <div id="map" style="height: 500px;"></div>
+
+  <script>
+    var map = L.map('map').setView([-6.2, 106.8], 13); // Jakarta
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Ambil data suhu dari Flask endpoint
+    fetch('/data')
+      .then(response => response.json())
+      .then(data => {
+        const lokasi = data[0];  // karena datanya berupa array
+        const suhu = lokasi.suhu;
+        const lat = lokasi.lat;
+        const lng = lokasi.lng;
+        if (suhu <30){
+            // Tambahkan lingkaran merah
+        L.circle([lat, lng], {
+          color: 'red',
+          fillColor: '#f03',
+          fillOpacity: 0.5,
+          radius: 200
+        }).addTo(map)
+          .bindPopup("BANJIR WOI")
+          .openPopup();
+      }
+    })
+
+        
+        
+      .catch(err => {
+        console.error("Gagal ambil data suhu:", err);
+      });
+  </script>
+</body>
+</html>
